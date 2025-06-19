@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Vercel Site</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+    nav a {
+      margin-right: 15px;
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a onclick="showPage('home')">Home</a>
+    <a onclick="showPage('contact')">Contact Us</a>
+  </nav>
+  <main id="content">
+    <!-- Content will be injected here -->
+  </main>
+  <script>
+    const pages = {
+      home: `
+        <h1>Welcome to My Website</h1>
+        <p>This is the homepage hosted on Vercel.</p>
+      `,
+      contact: `
+        <h1>Contact Us</h1>
+        <p>Email us at: contact@example.com</p>
+      `
+    };
+    function showPage(page) {
+      document.getElementById('content').innerHTML = pages[page];
+      history.pushState({ page }, '', `#${page}`);
+    }
+    // Handle back/forward navigation
+    window.addEventListener('popstate', (e) => {
+      const page = e.state?.page || 'home';
+      showPage(page);
+    });
+    // Load correct page on refresh or direct URL
+    window.onload = () => {
+      const hash = location.hash.replace('#', '') || 'home';
+      showPage(hash);
+    };
+  </script>
+</body>
+</html>
